@@ -1,0 +1,144 @@
+elasticsearch_endpoint: '{{ groups.elasticsearch.0 }}'
+elasticsearch_memory: '2048m'
+elasticsearch_cluster_name: 'monolith-es'
+elasticsearch_version: 2.4.6
+elasticsearch_download_sha256: 5f7e4bb792917bb7ffc2a5f612dfec87416d54563f795d6a70637befef4cfc6f.
+
+backup_blobdb: False
+blobdb_backup_dir: /myData/backup/blobdb
+blobdb_backup_days: 7
+blobdb_backup_weeks: 4
+blobdb_s3: False
+
+#backup_postgres: plain
+backup_postgres: False
+postgresql_backup_dir: /myData/backup/postgres
+postgres_backup_days: 7
+postgres_backup_weeks: 4
+postgres_s3: False
+
+backup_couch: False
+couch_backup_dir: /myData/backup/couchdb
+couchdb_backup_days: 7
+couchdb_backup_weeks: 4
+couch_s3: False
+
+backup_es_s3: False
+
+couchdb2:
+  username: "{{ localsettings_private.COUCH_USERNAME }}"
+  password: "{{ localsettings_private.COUCH_PASSWORD }}"
+
+couchdb_cluster_settings:
+  q: 8
+  r: 1
+  w: 1
+  n: 1
+
+couchdb_use_haproxy: True
+couch_dbs:
+  default:
+    host: 127.0.0.1
+    port: 35984
+    name: commcarehq
+    username: "{{ localsettings_private.COUCH_USERNAME }}"
+    password: "{{ localsettings_private.COUCH_PASSWORD }}"
+    is_https: False
+
+server_email: no-reply@itech-zimbabwe.org
+default_from_email: no-reply@itech-zimbabwe.org
+#root_email: /dev/null
+cchq_bug_report_email: no-reply@itech-zimbabwe.org
+root_email: no-reply@itech-zimbabwe.org
+server_admin_email: kwirirai@itech-zimbabwe.org
+support_email: kwirirai@itech-zimbabwe.org
+probono_support_email: no-reply@itech-zimbabwe.org
+accounts_email: no-reply@itech-zimbabwe.org
+data_email: no-reply@itech-zimbabwe.org
+subscription_change_email: no-reply@itech-zimbabwe.org
+internal_subscription_change_email: no-reply@itech-zimbabwe.org
+billing_email: no-reply@itech-zimbabwe.org
+invoicing_contact_email: no-reply@itech-zimbabwe.org
+growth_email: no-reply@itech-zimbabwe.org
+master_list_email: no-reply@itech-zimbabwe.org
+report_builder_add_on_email: no-reply@itech-zimbabwe.org
+eula_change_email: no-reply@itech-zimbabwe.org
+contact_email: no-reply@itech-zimbabwe.org
+soft_assert_email: no-reply@itech-zimbabwe.org
+
+BROKER_URL: 'redis://localhost:6379/0'
+
+KSPLICE_ACTIVE: no
+
+DATADOG_ENABLED: False
+
+nameservers: []
+internal_domain_name: 'itech-zimbabwe.org'
+
+filebeat_inputs:
+  - path: "{{ log_home }}/{{ deploy_env }}_commcare-nginx_error.log"
+    tags:  nginx-error
+  - path: "{{ log_home }}/{{ deploy_env }}-timing.log"
+    tags: nginx-timing
+
+TWO_FACTOR_GATEWAY_ENABLED: False
+
+localsettings:
+  ALLOWED_HOSTS:
+    - 'zdip.itech-zimbabwe.org'
+  BANK_ADDRESS: ~
+  BANK_NAME: ~
+  BANK_SWIFT_CODE: ~
+  CLOUDCARE_BASE_URL: http://localhost:9010
+  COUCH_CACHE_DOCS: True
+  COUCH_CACHE_VIEWS: True
+  COUCH_HTTPS: False
+  COUCH_PASSWORD: "{{ localsettings_private.COUCH_PASSWORD }}"
+  COUCH_SERVER_ROOT: "127.0.0.1"
+  COUCH_USERNAME: "{{ localsettings_private.COUCH_USERNAME }}"
+  COUCH_STALE_QUERY: 'update_after'
+  DEPLOY_MACHINE_NAME: "{{ ansible_hostname }}"
+  ELASTICSEARCH_MAJOR_VERSION: 2
+  EMAIL_SMTP_HOST: 'smtp.socketlabs.com'
+  EMAIL_SMTP_PORT: 587
+  EMAIL_USE_TLS: no
+  ENABLE_SOFT_ASSERT_EMAILS: False
+  IS_DIMAGI_ENVIRONMENT: False
+  HQ_INSTANCE: monolith
+  HUBSPOT_API_ID:
+  HUBSPOT_API_KEY:
+  INVOICE_FROM_ADDRESS:
+    'name': "ITech"
+    'first_line': ""
+    'city': "Seattle"
+    'region': "WA"
+    'postal_code': ""
+    'country': "US"
+    'phone_number': "(000) 555-1111"
+    'email': "no-reply@itech-zimbabwe.org"
+    'website': "http://www.go2itech.org/category/countries/zimbabwe/"
+  INVOICE_PREFIX: INC-
+  INVOICE_STARTING_NUMBER: 5000
+  J2ME_ADDRESS: ''
+#  KAFKA_HOST:
+  #  PILLOWTOP_MACHINE_ID:
+  PILLOW_RETRY_QUEUE_ENABLED: True
+  REDIS_DB: '0'
+  REDIS_HOST: "localhost"
+  REDIS_PORT: '6379'
+  REMINDERS_QUEUE_ENABLED: False
+  SMS_GATEWAY_URL: ''
+  SMS_QUEUE_ENABLED: False
+#  STATIC_ROOT:
+  ENABLE_PRELOGIN_SITE: False
+  ENTERPRISE_MODE: True
+  RESTRICT_DOMAIN_CREATION: False
+
+PY3_RUN_CELERY_BEAT: False
+PY3_RUN_CELERY_FLOWER: False
+PY3_RUN_CELERY_WORKER: False
+PY3_RUN_ERRAND_BOY: False
+PY3_RUN_GUNICORN: False
+PY3_RUN_MANAGEMENT: False
+PY3_RUN_PILLOWTOP: False
+PY3_RUN_WEBSOCKETS: False
